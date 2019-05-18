@@ -108,8 +108,7 @@ h1 {
 .modal .close-button:hover {
   color: #555;
 }
-
-.show-modal {
+.modal.show-modal {
   opacity: 1;
   visibility: visible;
   transform: scale(1);

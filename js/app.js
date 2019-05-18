@@ -1,4 +1,6 @@
+const totalUsers = 12;
 const userList = document.querySelector(".user-list");
+let userModalId;
 
 //create our list of users
 function createUserList(photo, nameFirst, nameLast, email, city, id) {
@@ -10,7 +12,7 @@ function createUserList(photo, nameFirst, nameLast, email, city, id) {
 }
 
 //get JSON response from randomuser API
-fetch("https://randomuser.me/api/?results=12&nat=gb")
+fetch(`https://randomuser.me/api/?results=${totalUsers}&nat=gb`)
   .then(function(response) {
     return response.json();
   })
@@ -50,7 +52,8 @@ userList.addEventListener("click", event => {
   var r1 = ev.closest(".user");
   //using closest to get parent id: https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
   //not supported in IE so will use polyfill
-  document.querySelector(".modal-user").innerHTML = r1.id;
+  userModalId = r1.id;
+  updateModalUser(userModalId);
   toggleModal();
 });
 
@@ -63,3 +66,23 @@ function toggleModal() {
 closeButton.addEventListener("click", () => {
   toggleModal();
 });
+
+//modal controls
+const modalControls = document.querySelector(".modal-controls");
+const modalNext = modalControls.querySelector(".next");
+const modalPrevious = modalControls.querySelector(".previous");
+
+modalNext.addEventListener("click", () => {
+  userModalId++;
+  updateModalUser(userModalId);
+});
+
+modalPrevious.addEventListener("click", () => {
+  userModalId--;
+  updateModalUser(userModalId);
+});
+
+//update modal user
+function updateModalUser(id) {
+  document.querySelector(".modal-user").innerHTML = id;
+}
