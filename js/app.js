@@ -52,7 +52,7 @@ userList.addEventListener("click", event => {
   var r1 = ev.closest(".user");
   //using closest to get parent id: https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
   //not supported in IE so will use polyfill
-  userModalId = r1.id;
+  userModalId = parseInt(r1.id);
   updateModalUser(userModalId);
   toggleModal();
 });
@@ -73,12 +73,19 @@ const modalNext = modalControls.querySelector(".next");
 const modalPrevious = modalControls.querySelector(".previous");
 
 modalNext.addEventListener("click", () => {
-  userModalId++;
+  if (userModalId !== totalUsers) {
+    userModalId++;
+  }
   updateModalUser(userModalId);
 });
 
+//we need to change total users here to the count of the mapped object of users
+//Next step is to create a new object from the initial loop with the user info we want
+
 modalPrevious.addEventListener("click", () => {
-  userModalId--;
+  if (userModalId !== 0) {
+    userModalId--;
+  }
   updateModalUser(userModalId);
 });
 
