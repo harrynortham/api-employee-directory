@@ -123,10 +123,10 @@ function updateModalUser(id) {
       }</div><hr><div class="modal-user-phone">${
         userArray[i].cell
       }</div> <div class="modal-user-address">${userArray[i].street} ${
-        userArray[i].state
-      } ${userArray[i].postcode}</div> <div class="modal-user-dob">Birthday ${
-        userArray[i].dob
-      }</div>`;
+        userArray[i].city
+      } ${userArray[i].state} ${
+        userArray[i].postcode
+      }</div> <div class="modal-user-dob">Birthday ${userArray[i].dob}</div>`;
     }
   }
 }

@@ -116,17 +116,39 @@ h1 {
   }
   .modal-user {
     line-height: 2em;
+    text-transform: capitalize;
+    color: #999;
     .modal-user-photo {
       text-align: center;
       img {
         border-radius: 50%;
-        margin-bottom: 1em;
+        margin: 1em 0;
       }
     }
+    .modal-user-name {
+      color: #333;
+    }
+    .modal-user-email {
+      text-transform: lowercase;
+    }
   }
+
   .modal-controls {
-    margin-top: 2em;
+    margin-top: 1.6em;
     text-align: center;
+    button {
+      background: black;
+      color: white;
+      border: 0;
+      display: inline-block;
+      padding: 0.5em 1.5em;
+      border-radius: 5px;
+      margin: 0 0.5em;
+      cursor: pointer;
+      &:focus {
+        outline: none;
+      }
+    }
   }
 }
 
