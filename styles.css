@@ -85,6 +85,7 @@ h1 {
   transform: scale(1.1);
   transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
   z-index: 1000;
+  text-align: center;
 }
 .modal .modal-content {
   position: absolute;
@@ -113,6 +114,20 @@ h1 {
   visibility: visible;
   transform: scale(1);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+.modal .modal-user {
+  line-height: 2em;
+}
+.modal .modal-user .modal-user-photo {
+  text-align: center;
+}
+.modal .modal-user .modal-user-photo img {
+  border-radius: 50%;
+  margin-bottom: 1em;
+}
+.modal .modal-controls {
+  margin-top: 2em;
+  text-align: center;
 }
 
 .email-wrap {

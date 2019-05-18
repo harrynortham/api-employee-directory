@@ -1,6 +1,6 @@
-const totalUsers = 12;
 const userList = document.querySelector(".user-list");
-let userModalId;
+let userId;
+let userArray = [];
 
 //create our list of users
 function createUserList(photo, nameFirst, nameLast, email, city, id) {
@@ -11,24 +11,44 @@ function createUserList(photo, nameFirst, nameLast, email, city, id) {
   userList.appendChild(li);
 }
 
-//get JSON response from randomuser API
-fetch(`https://randomuser.me/api/?results=${totalUsers}&nat=gb`)
+//get JSON response from randomuser API + create new array
+fetch("https://randomuser.me/api/?results=12&nat=gb")
   .then(function(response) {
     return response.json();
   })
-  .then(function(myJson) {
-    const results = myJson.results;
-    //loop through objects
+  .then(function(theJson) {
+    const results = theJson.results;
+    console.log(results);
     for (i = 0; i < results.length; i++) {
-      //console.log(results[i]);
-      createUserList(
-        results[i].picture.large,
-        results[i].name.first,
-        results[i].name.last,
-        results[i].email,
-        results[i].location.city,
-        [i]
-      );
+      const picture = results[i].picture.large;
+      const firstName = results[i].name.first;
+      const lastName = results[i].name.last;
+      const email = results[i].email;
+      const street = results[i].location.street;
+      const city = results[i].location.city;
+      const state = results[i].location.state;
+      const postcode = results[i].location.postcode;
+      const cell = results[i].cell;
+      const dob = results[i].dob.date;
+      const id = [i];
+
+      let user = {
+        picture: picture,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        city: city,
+        id: id,
+        cell: cell,
+        dob: dob,
+        street: street,
+        state: state,
+        postcode: postcode
+      };
+
+      userArray.push(user);
+
+      createUserList(picture, firstName, lastName, email, city, id);
     }
   });
 
@@ -49,11 +69,11 @@ if (window.Element && !Element.prototype.closest) {
 //get closest element with class .use and return it's ID
 userList.addEventListener("click", event => {
   var ev = event.target;
-  var r1 = ev.closest(".user");
+  var div = ev.closest(".user");
   //using closest to get parent id: https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
   //not supported in IE so will use polyfill
-  userModalId = parseInt(r1.id);
-  updateModalUser(userModalId);
+  userId = parseInt(div.id);
+  updateModalUser(userId);
   toggleModal();
 });
 
@@ -73,23 +93,40 @@ const modalNext = modalControls.querySelector(".next");
 const modalPrevious = modalControls.querySelector(".previous");
 
 modalNext.addEventListener("click", () => {
-  if (userModalId !== totalUsers) {
-    userModalId++;
+  if (userId < userArray.length - 1) {
+    userId++;
   }
-  updateModalUser(userModalId);
+  updateModalUser(userId);
 });
 
-//we need to change total users here to the count of the mapped object of users
-//Next step is to create a new object from the initial loop with the user info we want
-
 modalPrevious.addEventListener("click", () => {
-  if (userModalId !== 0) {
-    userModalId--;
+  if (userId !== 0) {
+    userId--;
   }
-  updateModalUser(userModalId);
+  updateModalUser(userId);
 });
 
 //update modal user
 function updateModalUser(id) {
-  document.querySelector(".modal-user").innerHTML = id;
+  for (i = 0; i < userArray.length; i++) {
+    if (parseInt(userArray[i].id) === id) {
+      document.querySelector(
+        ".modal-user"
+      ).innerHTML = `<div class="modal-user-photo"><img src="${
+        userArray[i].picture
+      }" alt="" /></div> <div class="modal-user-name">${
+        userArray[i].firstName
+      } ${userArray[i].lastName}</div> <div class="modal-user-email">${
+        userArray[i].email
+      }</div> <div class="modal-user-city">${
+        userArray[i].city
+      }</div><hr><div class="modal-user-phone">${
+        userArray[i].cell
+      }</div> <div class="modal-user-address">${userArray[i].street} ${
+        userArray[i].state
+      } ${userArray[i].postcode}</div> <div class="modal-user-dob">Birthday ${
+        userArray[i].dob
+      }</div>`;
+    }
+  }
 }
